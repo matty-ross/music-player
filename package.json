@@ -1,0 +1,14 @@
+{
+    "name": "music-player",
+    "version": "1.0.0",
+    "description": "A simple web app for uploading and playing music.",
+    "main": "app.js",
+    "type": "module",
+    "scripts": {},
+    "keywords": [],
+    "author": "Matty",
+    "license": "ISC",
+    "dependencies": {
+        "express": "^4.19.2"
+    }
+}
