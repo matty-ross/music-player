@@ -1,4 +1,6 @@
-import database from './connection.js';
+import sqlite from 'node:sqlite';
+
+const database = new sqlite.DatabaseSync('./db.sqlite3');
 
 database.exec(`
     CREATE TABLE "song" (

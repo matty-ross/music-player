@@ -1,11 +1,13 @@
-import database from './connection.js';
+import sqlite from 'node:sqlite';
+
+const database = new sqlite.DatabaseSync('./db.sqlite3');
 
 class Song {
     id = null;
     name = null;
 
     static list() {
-        const result = database
+        return database
             .prepare(`
                 SELECT *
                 FROM "song"
@@ -13,11 +15,25 @@ class Song {
             `)
             .all()
         ;
-        return result;
+    }
+
+    static get(id) {
+        return database
+            .prepare(`
+                SELECT *
+                FROM "song"
+                WHERE
+                    "id" = :id
+                ;
+            `)
+            .get({
+                id: id,
+            })
+        ;
     }
 
     static create(song) {
-        const result = database
+        database
             .prepare(`
                 INSERT INTO "song"
                     (
@@ -33,7 +49,37 @@ class Song {
                 name: song.name,
             })
         ;
-        song.id = result.lastInsertRowid;
+    }
+
+    static update(song) {
+        database
+            .prepare(`
+                UPDATE "song"
+                SET
+                    "name" = :name
+                WHERE
+                    "id" = :id
+                ;
+            `)
+            .run({
+                id: song.id,
+                name: song.name,
+            })
+        ;
+    }
+
+    static delete(id) {
+        database
+            .prepare(`
+                DELETE FROM "song"
+                WHERE
+                    "id" = :id
+                ;
+            `)
+            .run({
+                id: id,
+            })
+        ;
     }
 }
 
