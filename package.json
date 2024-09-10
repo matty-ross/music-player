@@ -4,7 +4,10 @@
     "description": "A simple web app for uploading and playing music.",
     "main": "app.js",
     "type": "module",
-    "scripts": {},
+    "scripts": {
+        "create": "node --experimental-sqlite .\\db\\create.js", 
+        "start": "node --experimental-sqlite --watch ."
+    },
     "keywords": [],
     "author": "Matty",
     "license": "ISC",
