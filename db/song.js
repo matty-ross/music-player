@@ -5,6 +5,8 @@ const database = new sqlite.DatabaseSync('./db.sqlite3');
 class Song {
     id = null;
     name = null;
+    artist = null;
+    filePath = null;
 
     static list() {
         return database
@@ -37,16 +39,22 @@ class Song {
             .prepare(`
                 INSERT INTO "song"
                     (
-                        "name"
+                        "name",
+                        "artist",
+                        "file_path"
                     )
                 VALUES
                     (
-                        :name
+                        :name,
+                        :artist,
+                        :filePath
                     )
                 ;
             `)
             .run({
                 name: song.name,
+                artist: song.artist,
+                filePath: song.filePath,
             })
         ;
     }
@@ -56,7 +64,9 @@ class Song {
             .prepare(`
                 UPDATE "song"
                 SET
-                    "name" = :name
+                    "name" = :name,
+                    "artist" = :artist,
+                    "file_path" = :filePath
                 WHERE
                     "id" = :id
                 ;
@@ -64,6 +74,8 @@ class Song {
             .run({
                 id: song.id,
                 name: song.name,
+                artist: song.artist,
+                filePath: song.filePath,
             })
         ;
     }
