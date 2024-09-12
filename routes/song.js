@@ -1,7 +1,12 @@
 import express from 'express';
+import multer from 'multer';
 import Song from '../db/song.js';
 
 const router = express.Router();
+
+const upload = multer({
+    dest: './public/upload/song',
+});
 
 function isValid(req, res, properties) {
     const missingProperties = properties
@@ -18,7 +23,7 @@ function isValid(req, res, properties) {
     return true;
 }
 
-router.post('/create', (req, res) => {
+router.post('/create', upload.single('file'), (req, res) => {
     if (!isValid(req, res, [
         'name',
         'artist',
@@ -29,7 +34,8 @@ router.post('/create', (req, res) => {
     const song = new Song();
     song.name = req.body.name;
     song.artist = req.body.artist;
-    song.filePath = ''; // TODO: file upload
+    song.fileName = req.file.originalname;
+    song.filePath = req.file.path;
     Song.create(song);
     
     res.send({
@@ -37,7 +43,7 @@ router.post('/create', (req, res) => {
     });
 });
 
-router.post('/update', (req, res) => {
+router.post('/update', upload.single('file'), (req, res) => {
     if (!isValid(req, res, [
         'id',
         'name',
@@ -49,7 +55,8 @@ router.post('/update', (req, res) => {
     const song = Song.get(req.body.id);
     song.name = req.body.name;
     song.artist = req.body.artist;
-    song.filePath = ''; // TODO: file upload
+    song.fileName = req.file.originalname;
+    song.filePath = req.file.path;
     Song.update(song);
     
     res.send({
