@@ -23,6 +23,12 @@ function isValid(req, res, properties) {
     return true;
 }
 
+router.get('/', (req, res) => {
+    res.render('song/index', {
+        songs: Song.list(),
+    });
+})
+
 router.post('/create', upload.single('file'), (req, res) => {
     if (!isValid(req, res, [
         'name',
