@@ -1,6 +1,7 @@
 <table>
     <thead>
         <tr>
+            <th></th>
             <th>Name</th>
             <th>Artist</th>
             <th>File</th>
@@ -9,6 +10,10 @@
     <tbody>
         <% for (const song of songs) { %>
             <tr>
+                <td>
+                    <button type="button">Edit</button>
+                    <button type="button">Delete</button>
+                </td>
                 <td><%= song.name %></td>
                 <td><%= song.artist %></td>
                 <td><%= song.file_name %></td>

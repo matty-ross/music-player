@@ -29,6 +29,12 @@ router.get('/', (req, res) => {
     });
 })
 
+router.get('/create', (req, res) => {
+    res.render('song/form', {
+        url: '/song/create',
+    });
+})
+
 router.post('/create', upload.single('file'), (req, res) => {
     if (!isValid(req, res, [
         'name',
@@ -48,6 +54,13 @@ router.post('/create', upload.single('file'), (req, res) => {
         message: "Song created",
     });
 });
+
+router.get('/update/:id', (req, res) => {
+    res.render('song/form', {
+        url: '/song/update',
+        song: Song.get(req.params.id),
+    });
+})
 
 router.post('/update', upload.single('file'), (req, res) => {
     if (!isValid(req, res, [
