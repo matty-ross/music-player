@@ -13,7 +13,7 @@ class Song {
         return database
             .prepare(`
                 SELECT *
-                FROM "song"
+                FROM "Song"
                 ;
             `)
             .all()
@@ -24,7 +24,7 @@ class Song {
         return database
             .prepare(`
                 SELECT *
-                FROM "song"
+                FROM "Song"
                 WHERE
                     "id" = :id
                 ;
@@ -38,12 +38,12 @@ class Song {
     static create(song) {
         database
             .prepare(`
-                INSERT INTO "song"
+                INSERT INTO "Song"
                     (
                         "name",
                         "artist",
-                        "file_name",
-                        "file_path"
+                        "fileName",
+                        "filePath"
                     )
                 VALUES
                     (
@@ -66,12 +66,12 @@ class Song {
     static update(song) {
         database
             .prepare(`
-                UPDATE "song"
+                UPDATE "Song"
                 SET
                     "name" = :name,
                     "artist" = :artist,
-                    "file_name" = :fileName,
-                    "file_path" = :filePath
+                    "fileName" = :fileName,
+                    "filePath" = :filePath
                 WHERE
                     "id" = :id
                 ;
@@ -89,7 +89,7 @@ class Song {
     static delete(id) {
         database
             .prepare(`
-                DELETE FROM "song"
+                DELETE FROM "Song"
                 WHERE
                     "id" = :id
                 ;

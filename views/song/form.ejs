@@ -1,11 +1,11 @@
 <form action="<%= url %>" method="post" enctype="multipart/form-data">
     <div>
         <label for="name">Name</label>
-        <input type="text" name="name" id="name" value="<%= song.name ?? '' %>">
+        <input type="text" name="name" id="name" value="<%= locals.song?.name %>">
     </div>
     <div>
         <label for="artist">Artist</label>
-        <input type="text" name="artist" id="artist" value="<%= song.artist ?? '' %>">
+        <input type="text" name="artist" id="artist" value="<%= locals.song?.artist %>">
     </div>
     <div>
         <label for="file">File</label>

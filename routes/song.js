@@ -8,21 +8,6 @@ const upload = multer({
     dest: './public/upload/song',
 });
 
-function isValid(req, res, properties) {
-    const missingProperties = properties
-        .filter(property => !req.body[property])
-    ;
-
-    if (missingProperties.length > 0) {
-        res.status(400).send({
-            message: `Missing properties: ${missingProperties.join(', ')}`,
-        });
-        return false;
-    }
-    
-    return true;
-}
-
 router.get('/', (req, res) => {
     res.render('song/index', {
         songs: Song.list(),
@@ -36,18 +21,12 @@ router.get('/create', (req, res) => {
 })
 
 router.post('/create', upload.single('file'), (req, res) => {
-    if (!isValid(req, res, [
-        'name',
-        'artist',
-    ])) {
-        return;
-    }
-    
     const song = new Song();
     song.name = req.body.name;
     song.artist = req.body.artist;
     song.fileName = req.file.originalname;
     song.filePath = req.file.path;
+    
     Song.create(song);
     
     res.send({
@@ -62,20 +41,13 @@ router.get('/update/:id', (req, res) => {
     });
 })
 
-router.post('/update', upload.single('file'), (req, res) => {
-    if (!isValid(req, res, [
-        'id',
-        'name',
-        'artist',
-    ])) {
-        return;
-    }
-    
-    const song = Song.get(req.body.id);
+router.post('/update/:id', upload.single('file'), (req, res) => {
+    const song = Song.get(req.params.id);
     song.name = req.body.name;
     song.artist = req.body.artist;
     song.fileName = req.file.originalname;
     song.filePath = req.file.path;
+    
     Song.update(song);
     
     res.send({
@@ -83,14 +55,8 @@ router.post('/update', upload.single('file'), (req, res) => {
     });
 });
 
-router.post('/delete', (req, res) => {
-    if (!isValid(req, res, [
-        'id',
-    ])) {
-        return;
-    }
-    
-    Song.delete(req.body.id);
+router.post('/delete/:id', (req, res) => {
+    Song.delete(req.params.id);
     
     res.send({
         message: "Song deleted",
