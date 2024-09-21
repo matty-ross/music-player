@@ -10,14 +10,28 @@ const upload = multer({
 
 router.get('/', (req, res) => {
     res.render('song/index', {
+    });
+})
+
+router.get('/table', (req, res) => {
+    res.render('song/table', {
         songs: Song.list(),
     });
 })
 
-router.get('/create', (req, res) => {
-    res.render('song/form', {
-        url: '/song/create',
-    });
+router.get('/form/:id?', (req, res) => {
+    const id = req.params.id;
+    
+    if (id == null) {
+        res.render('song/form', {
+            url: '/song/create',
+        });
+    } else {
+        res.render('song/form', {
+            url: `/song/update/${id}`,
+            song: Song.get(id),
+        });
+    }
 })
 
 router.post('/create', upload.single('file'), (req, res) => {
@@ -33,13 +47,6 @@ router.post('/create', upload.single('file'), (req, res) => {
         message: "Song created",
     });
 });
-
-router.get('/update/:id', (req, res) => {
-    res.render('song/form', {
-        url: '/song/update',
-        song: Song.get(req.params.id),
-    });
-})
 
 router.post('/update/:id', upload.single('file'), (req, res) => {
     const song = Song.get(req.params.id);

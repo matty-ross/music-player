@@ -1,3 +1,6 @@
 import { Application } from '@hotwired/stimulus';
+import SongController from './controllers/song_controller.js';
 
-window.Stimulus = Application.start();
+const application = Application.start();
+
+application.register('song', SongController);
