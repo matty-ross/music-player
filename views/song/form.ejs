@@ -1,18 +1,72 @@
-<form action="<%= url %>" method="post" enctype="multipart/form-data">
-    <div>
-        <label for="name">Name</label>
-        <input type="text" name="name" id="name" value="<%= locals.song?.name %>">
+<div class="modal" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            
+            <form action="<%= url %>" method="post" enctype="multipart/form-data">
+                
+                <div class="modal-header">
+                    <div class="modal-title h5"><%= title %></div>
+                    <button
+                        class="btn-close"
+                        type="button"
+                        data-bs-dismiss="modal"
+                    >
+                    </button>
+                </div>
+            
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label" for="name">Name</label>
+                        <input
+                            id="name"    
+                            class="form-control"
+                            type="text"
+                            name="name"
+                            value="<%= locals.song?.name %>"
+                            required
+                        >
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="artist">Artist</label>
+                        <input
+                            id="artist"
+                            class="form-control"
+                            type="text"
+                            name="artist"
+                            value="<%= locals.song?.artist %>"
+                            required
+                        >
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="file">File</label>
+                        <input
+                            id="file"
+                            class="form-control"
+                            type="file"
+                            name="file"
+                            required
+                            accept="audio/mp3"
+                        >
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button
+                        class="btn btn-outline-secondary"
+                        type="reset"
+                    >
+                        Reset
+                    </button>
+                    <button
+                        class="btn btn-primary"
+                        type="submit"
+                    >
+                        Submit
+                    </button>
+                </div>
+                
+            </form>
+
+        </div>
     </div>
-    <div>
-        <label for="artist">Artist</label>
-        <input type="text" name="artist" id="artist" value="<%= locals.song?.artist %>">
-    </div>
-    <div>
-        <label for="file">File</label>
-        <input type="file" name="file" id="file">
-    </div>
-    <div>
-        <button type="reset">Reset</button>
-        <button type="submit">Submit</button>
-    </div>
-</form>
+</div>

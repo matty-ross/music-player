@@ -6,8 +6,7 @@ class Song {
     id = null;
     name = null;
     artist = null;
-    fileName = null;
-    filePath = null;
+    file = null;
 
     static list() {
         return database
@@ -42,23 +41,20 @@ class Song {
                     (
                         "name",
                         "artist",
-                        "fileName",
-                        "filePath"
+                        "file"
                     )
                 VALUES
                     (
                         :name,
                         :artist,
-                        :fileName,
-                        :filePath
+                        :file
                     )
                 ;
             `)
             .run({
                 name: song.name,
                 artist: song.artist,
-                fileName: song.fileName,
-                filePath: song.filePath,
+                file: song.file,
             })
         ;
     }
@@ -70,8 +66,7 @@ class Song {
                 SET
                     "name" = :name,
                     "artist" = :artist,
-                    "fileName" = :fileName,
-                    "filePath" = :filePath
+                    "file" = :file
                 WHERE
                     "id" = :id
                 ;
@@ -80,8 +75,7 @@ class Song {
                 id: song.id,
                 name: song.name,
                 artist: song.artist,
-                fileName: song.fileName,
-                filePath: song.filePath,
+                file: song.file,
             })
         ;
     }

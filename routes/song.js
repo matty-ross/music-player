@@ -9,8 +9,7 @@ const upload = multer({
 });
 
 router.get('/', (req, res) => {
-    res.render('song/index', {
-    });
+    res.render('song/index');
 })
 
 router.get('/table', (req, res) => {
@@ -22,14 +21,16 @@ router.get('/table', (req, res) => {
 router.get('/form/:id?', (req, res) => {
     const id = req.params.id;
     
-    if (id == null) {
+    if (id) {
         res.render('song/form', {
-            url: '/song/create',
+            title: "Update song",
+            url: `/song/update/${id}`,
+            song: Song.get(id),
         });
     } else {
         res.render('song/form', {
-            url: `/song/update/${id}`,
-            song: Song.get(id),
+            title: "Create song",
+            url: '/song/create',
         });
     }
 })
@@ -38,8 +39,7 @@ router.post('/create', upload.single('file'), (req, res) => {
     const song = new Song();
     song.name = req.body.name;
     song.artist = req.body.artist;
-    song.fileName = req.file.originalname;
-    song.filePath = req.file.path;
+    song.file = req.file.path;
     
     Song.create(song);
     
@@ -52,8 +52,7 @@ router.post('/update/:id', upload.single('file'), (req, res) => {
     const song = Song.get(req.params.id);
     song.name = req.body.name;
     song.artist = req.body.artist;
-    song.fileName = req.file.originalname;
-    song.filePath = req.file.path;
+    song.file = req.file.path;
     
     Song.update(song);
     
