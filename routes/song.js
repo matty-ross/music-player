@@ -13,9 +13,17 @@ router.get('/', (req, res) => {
 })
 
 router.get('/table', (req, res) => {
-    res.render('song/table', {
-        songs: Song.list(),
-    });
+    const query = req.query.q;
+
+    if (query) {
+        res.render('song/table', {
+            songs: Song.listFiltered(query),
+        });
+    } else {
+        res.render('song/table', {
+            songs: Song.list(),
+        });
+    }
 })
 
 router.get('/form/:id?', (req, res) => {

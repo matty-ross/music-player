@@ -12,7 +12,12 @@ export default class extends Controller {
         this.#loadTable();
     }
 
-    create() {
+    filter(event) {
+        const query = event.currentTarget.value;
+        this.#loadTable(query);
+    }
+
+    create(event) {
         this.#loadForm();
     }
 
@@ -21,11 +26,16 @@ export default class extends Controller {
         this.#loadForm(id);
     }
 
-    async #loadTable() {
+    async #loadTable(query = null) {
         this.loadingTarget.hidden = false;
         this.tableTarget.innerHTML = '';
+
+        let url = '/song/table';
+        if (query !== null) {
+            url += `?q=${query}`;
+        }
         
-        const response = await fetch('/song/table');
+        const response = await fetch(url);
         this.tableTarget.innerHTML = await response.text();
         this.loadingTarget.hidden = true;
     }

@@ -19,6 +19,21 @@ class Song {
         ;
     }
 
+    static listFiltered(query) {
+        return database
+            .prepare(`
+                SELECT *
+                FROM "Song"
+                WHERE
+                    ("name" || ' ' || "artist") LIKE :query
+                ;
+            `)
+            .all({
+                query: `%${query}%`,
+            })
+        ;
+    }
+
     static get(id) {
         return database
             .prepare(`
