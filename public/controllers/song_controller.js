@@ -3,6 +3,7 @@ import { Controller } from "@hotwired/stimulus";
 export default class extends Controller {
     static targets = [
         'loading',
+        'modal',
         'form',
         'table',
     ]
@@ -38,7 +39,7 @@ export default class extends Controller {
         const response = await fetch(url);
         this.formTarget.innerHTML = await response.text();
 
-        const modal = new bootstrap.Modal(this.formTarget.querySelector('.modal'));
+        const modal = new bootstrap.Modal(this.modalTarget);
         modal.show();
     }
 }
