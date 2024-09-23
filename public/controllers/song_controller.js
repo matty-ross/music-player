@@ -6,13 +6,18 @@ export default class extends Controller {
         'modal',
         'form',
         'table',
+        'toast',
     ]
 
+    #modal = null;
+    #toast = null;
+
     connect() {
+        this.#toast = new bootstrap.Toast(this.toastTarget);
         this.#loadTable();
     }
 
-    filter(event) {
+    filterTable(event) {
         const query = event.currentTarget.value;
         this.#loadTable(query);
     }
@@ -24,6 +29,22 @@ export default class extends Controller {
     update(event) {
         const id = event.params.id;
         this.#loadForm(id);
+    }
+
+    async submitForm(event) {
+        const form = event.currentTarget;
+        
+        const response = await fetch(form.action, {
+            method: 'POST',
+            body: new FormData(form),
+        });
+        const json = await response.json();
+
+        this.toastTarget.querySelector('.toast-body').innerText = json.message;
+        this.#toast.show();
+
+        this.#modal.hide();
+        this.#loadTable();
     }
 
     async #loadTable(query = null) {
@@ -49,7 +70,7 @@ export default class extends Controller {
         const response = await fetch(url);
         this.formTarget.innerHTML = await response.text();
 
-        const modal = new bootstrap.Modal(this.modalTarget);
-        modal.show();
+        this.#modal = new bootstrap.Modal(this.modalTarget);
+        this.#modal.show();
     }
 }

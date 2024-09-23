@@ -6,7 +6,12 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             
-            <form action="<%= url %>" method="post" enctype="multipart/form-data">
+            <form
+                action="<%= url %>"
+                method="post"
+                enctype="multipart/form-data"
+                data-action="submit->song#submitForm:prevent"
+            >
                 
                 <div class="modal-header">
                     <div class="modal-title h5"><%= title %></div>
