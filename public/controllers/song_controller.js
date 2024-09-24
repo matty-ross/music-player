@@ -31,6 +31,27 @@ export default class extends Controller {
         this.#loadForm(id);
     }
 
+    async delete(event) {
+        const id = event.params.id;
+        
+        const result = await Swal.fire({
+            text: "Delete song?",
+            icon: 'question',
+            showCancelButton: true,
+        });
+
+        if (result.isConfirmed) {
+            const response = await fetch(`/song/delete/${id}`, {
+                method: 'POST',
+            });
+            const json = await response.json();
+    
+            this.#showToast(json);
+
+            this.#loadTable();
+        }
+    }
+
     async submitForm(event) {
         const form = event.currentTarget;
         
@@ -40,8 +61,7 @@ export default class extends Controller {
         });
         const json = await response.json();
 
-        this.toastTarget.querySelector('.toast-body').innerText = json.message;
-        this.#toast.show();
+        this.#showToast(json);
 
         this.#modal.hide();
         this.#loadTable();
@@ -72,5 +92,10 @@ export default class extends Controller {
 
         this.#modal = new bootstrap.Modal(this.modalTarget);
         this.#modal.show();
+    }
+
+    #showToast(json) {
+        this.toastTarget.querySelector('.toast-body').innerText = json.message;
+        this.#toast.show();
     }
 }
