@@ -2,17 +2,15 @@ import sqlite from 'node:sqlite';
 
 const database = new sqlite.DatabaseSync('./db.sqlite3');
 
-class Song {
+class Playlist {
     id = null;
     name = null;
-    artist = null;
-    file = null;
 
     static list() {
         return database
             .prepare(`
                 SELECT *
-                FROM "song"
+                FROM "playlist"
                 ;
             `)
             .all()
@@ -23,9 +21,9 @@ class Song {
         return database
             .prepare(`
                 SELECT *
-                FROM "song"
+                FROM "playlist"
                 WHERE
-                    ("name" || ' ' || "artist") LIKE :query
+                    "name" LIKE :query
                 ;
             `)
             .all({
@@ -38,7 +36,7 @@ class Song {
         return database
             .prepare(`
                 SELECT *
-                FROM "song"
+                FROM "playlist"
                 WHERE
                     "id" = :id
                 ;
@@ -49,48 +47,38 @@ class Song {
         ;
     }
 
-    static create(song) {
+    static create(playlist) {
         database
             .prepare(`
-                INSERT INTO "song"
+                INSERT INTO "playlist"
                     (
-                        "name",
-                        "artist",
-                        "file"
+                        "name"
                     )
                 VALUES
                     (
-                        :name,
-                        :artist,
-                        :file
+                        :name
                     )
                 ;
             `)
             .run({
-                name: song.name,
-                artist: song.artist,
-                file: song.file,
+                name: playlist.name,
             })
         ;
     }
 
-    static update(song) {
+    static update(playlist) {
         database
             .prepare(`
-                UPDATE "song"
+                UPDATE "playlist"
                 SET
-                    "name" = :name,
-                    "artist" = :artist,
-                    "file" = :file
+                    "name" = :name
                 WHERE
                     "id" = :id
                 ;
             `)
             .run({
-                id: song.id,
-                name: song.name,
-                artist: song.artist,
-                file: song.file,
+                id: playlist.id,
+                name: playlist.name,
             })
         ;
     }
@@ -98,7 +86,7 @@ class Song {
     static delete(id) {
         database
             .prepare(`
-                DELETE FROM "song"
+                DELETE FROM "playlist"
                 WHERE
                     "id" = :id
                 ;
@@ -110,4 +98,4 @@ class Song {
     }
 }
 
-export default Song;
+export default Playlist;
