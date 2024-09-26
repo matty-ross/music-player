@@ -5,8 +5,8 @@
     "main": "app.js",
     "type": "module",
     "scripts": {
-        "create": "node --experimental-sqlite .\\db\\create.js",
-        "start": "node --experimental-sqlite --watch ."
+        "create": "node --experimental-sqlite ./db/create.js",
+        "serve": "node --experimental-sqlite --watch ."
     },
     "keywords": [],
     "author": "Matty",
