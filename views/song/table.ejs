@@ -1,47 +1,49 @@
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th></th>
-            <th>Name</th>
-            <th>Artist</th>
-        </tr>
-    </thead>
-    <tbody class="table-group-divider align-middle">
-        <% for (const song of songs) { %>
+<turbo-frame id="table">
+    <table class="table table-hover">
+        <thead>
             <tr>
-                <td>
-                    <button
-                        type="button"
-                        class="btn btn-outline-secondary"
-                        data-action="click->song#update"
-                        data-song-id-param="<%= song.id %>"
-                    >
-                        <i class="bi bi-pencil"></i>
-                    </button>
-                    <button
-                        type="button"
-                        class="btn btn-outline-danger"
-                        data-action="click->song#delete"
-                        data-song-id-param="<%= song.id %>"
-                    >
-                        <i class="bi bi-trash"></i>
-                    </button>
-                    <button
-                        type="button"
-                        class="btn btn-outline-primary"
-                    >
-                        <i class="bi bi-play"></i>
-                    </button>
-                    <button
-                        type="button"
-                        class="btn btn-outline-primary"
-                    >
-                        <i class="bi bi-download"></i>
-                    </button>
-                </td>
-                <td><%= song.name %></td>
-                <td><%= song.artist %></td>
+                <th></th>
+                <th>Name</th>
+                <th>Artist</th>
             </tr>
-        <% } %>
-    </tbody>
-</table>
+        </thead>
+        <tbody class="table-group-divider align-middle">
+            <% for (const song of songs) { %>
+                <tr>
+                    <td>
+                        <button
+                            type="button"
+                            class="btn btn-outline-secondary"
+                            data-action="click->song#update"
+                            data-song-id-param="<%= song.id %>"
+                        >
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-outline-danger"
+                            data-action="click->song#delete"
+                            data-song-id-param="<%= song.id %>"
+                        >
+                            <i class="bi bi-trash"></i>
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-outline-primary"
+                        >
+                            <i class="bi bi-play"></i>
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-outline-primary"
+                        >
+                            <i class="bi bi-download"></i>
+                        </button>
+                    </td>
+                    <td><%= song.name %></td>
+                    <td><%= song.artist %></td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</turbo-frame>
