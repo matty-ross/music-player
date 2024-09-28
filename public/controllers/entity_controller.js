@@ -6,6 +6,7 @@ export default class extends Controller {
         'form',
         'modal',
         'toast',
+        'message',
     ]
 
     static values = {
@@ -16,36 +17,58 @@ export default class extends Controller {
     #toast = null;
 
     connect() {
-        this.#loadTable();
+        this.tableTarget.setAttribute('src', `/${this.nameValue}/table`);
+        
         this.#modal = new bootstrap.Modal(this.modalTarget);
         this.#toast = new bootstrap.Toast(this.toastTarget);
     }
 
     filterTable(event) {
-        const query = event.currentTarget.value;
-        this.#loadTable(query);
+        const query = event.target.value;
+        this.tableTarget.setAttribute('src', `/${this.nameValue}/table?q=${query}`);
     }
 
-    create(event) {
-        this.#loadForm();
+    async loadForm(event) {
+        const id = event.params.id;
+        if (id != null) {
+            this.formTarget.setAttribute('src', `/${this.nameValue}/form/${id}`);
+        } else {
+            this.formTarget.setAttribute('src', `/${this.nameValue}/form`);
+        }
+
+        await this.formTarget.loaded;
         this.#modal.show();
     }
 
-    #loadTable(query = null) {
-        let url = `/${this.nameValue}/table`;
-        if (query !== null) {
-            url += `?q=${query}`;
-        }
-        
-        this.tableTarget.setAttribute('src', url);
+    async formSubmitted(event) {
+        const json = await event.detail.fetchResponse.response.json();
+        this.messageTarget.innerText = json.message;
+
+        this.#modal.hide();
+        this.#toast.show();
+
+        this.tableTarget.reload();
     }
 
-    #loadForm(id = null) {
-        let url = `/${this.nameValue}/form`;
-        if (id !== null) {
-            url += `/${id}`;
-        }
+    async delete(event) {
+        const id = event.params.id;
+        
+        const result = await Swal.fire({
+            text: `Delete ${this.nameValue}?`,
+            icon: 'question',
+            showCancelButton: true,
+        });
 
-        this.formTarget.setAttribute('src', url);
+        if (result.isConfirmed) {
+            const response = await fetch(`/song/delete/${id}`, {
+                method: 'POST',
+            });
+            const json = await response.json();
+    
+            this.messageTarget.innerText = json.message;
+            this.#toast.show();
+
+            this.tableTarget.reload();
+        }
     }
 }
