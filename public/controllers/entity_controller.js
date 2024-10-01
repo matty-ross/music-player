@@ -60,12 +60,12 @@ export default class extends Controller {
         });
 
         if (result.isConfirmed) {
-            const response = await fetch(`/song/delete/${id}`, {
+            const response = await fetch(`/${this.nameValue}/delete/${id}`, {
                 method: 'POST',
             });
             const json = await response.json();
-    
             this.messageTarget.innerText = json.message;
+    
             this.#toast.show();
 
             this.tableTarget.reload();
