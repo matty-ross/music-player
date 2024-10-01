@@ -1,58 +1,48 @@
-<div
-    class="modal"
-    data-bs-backdrop="static"
-    data-playlist-target="modal"
->
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            
-            <form
-                action="<%= url %>"
-                method="post"
-                data-action="submit->playlist#submitForm:prevent"
+<turbo-frame id="form">
+    <form
+        action="<%= url %>"
+        method="post"
+        data-action="turbo:submit-end->entity#formSubmitted"
+    >
+        
+        <div class="modal-header">
+            <div class="modal-title h5"><%= title %></div>
+            <button
+                class="btn-close"
+                type="button"
+                data-bs-dismiss="modal"
             >
-                
-                <div class="modal-header">
-                    <div class="modal-title h5"><%= title %></div>
-                    <button
-                        class="btn-close"
-                        type="button"
-                        data-bs-dismiss="modal"
-                    >
-                    </button>
-                </div>
-            
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label class="form-label" for="name">Name</label>
-                        <input
-                            id="name"    
-                            class="form-control"
-                            type="text"
-                            name="name"
-                            value="<%= locals.playlist?.name %>"
-                            required
-                        >
-                    </div>
-                </div>
-                
-                <div class="modal-footer">
-                    <button
-                        class="btn btn-outline-secondary"
-                        type="reset"
-                    >
-                        Reset
-                    </button>
-                    <button
-                        class="btn btn-primary"
-                        type="submit"
-                    >
-                        Submit
-                    </button>
-                </div>
-                
-            </form>
-
+            </button>
         </div>
-    </div>
-</div>
+    
+        <div class="modal-body">
+            <div class="mb-3">
+                <label class="form-label" for="name">Name</label>
+                <input
+                    id="name"    
+                    class="form-control"
+                    type="text"
+                    name="name"
+                    value="<%= locals.playlist?.name %>"
+                    required
+                >
+            </div>
+        </div>
+        
+        <div class="modal-footer">
+            <button
+                class="btn btn-outline-secondary"
+                type="reset"
+            >
+                Reset
+            </button>
+            <button
+                class="btn btn-primary"
+                type="submit"
+            >
+                Submit
+            </button>
+        </div>
+        
+    </form>
+</turbo-frame>

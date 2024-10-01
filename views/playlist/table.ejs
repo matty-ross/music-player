@@ -1,33 +1,35 @@
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th></th>
-            <th>Name</th>
-        </tr>
-    </thead>
-    <tbody class="table-group-divider align-middle">
-        <% for (const playlist of playlists) { %>
+<turbo-frame id="table">
+    <table class="table table-hover">
+        <thead>
             <tr>
-                <td>
-                    <button
-                        type="button"
-                        class="btn btn-outline-secondary"
-                        data-action="click->playlist#update"
-                        data-playlist-id-param="<%= playlist.id %>"
-                    >
-                        <i class="bi bi-pencil"></i>
-                    </button>
-                    <button
-                        type="button"
-                        class="btn btn-outline-danger"
-                        data-action="click->playlist#delete"
-                        data-playlist-id-param="<%= playlist.id %>"
-                    >
-                        <i class="bi bi-trash"></i>
-                    </button>
-                </td>
-                <td><%= playlist.name %></td>
+                <th></th>
+                <th>Name</th>
             </tr>
-        <% } %>
-    </tbody>
-</table>
+        </thead>
+        <tbody class="table-group-divider align-middle">
+            <% for (const playlist of playlists) { %>
+                <tr>
+                    <td>
+                        <button
+                            type="button"
+                            class="btn btn-outline-secondary"
+                            data-action="click->entity#loadForm"
+                            data-entity-id-param="<%= playlist.id %>"
+                        >
+                            <i class="bi bi-pencil"></i>
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-outline-danger"
+                            data-action="click->entity#delete"
+                            data-playlist-id-param="<%= playlist.id %>"
+                        >
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                    <td><%= playlist.name %></td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</turbo-frame>
