@@ -1,23 +1,38 @@
 import sqlite from 'node:sqlite';
 
+import Playlist from '../entity/playlist.js';
+
+
 const database = new sqlite.DatabaseSync('./db.sqlite3');
 
-class Playlist {
-    id = null;
-    name = null;
 
-    static list() {
-        return database
-            .prepare(`
-                SELECT *
-                FROM "playlist"
-                ;
-            `)
-            .all()
-        ;
+export default class PlaylistRepository {
+    
+    static list(searchQuery = '') {
+        const playlistDbObjects = PlaylistRepository.#selectPlaylists(searchQuery);
+        return playlistDbObjects.map(playlistDbObject => new Playlist(playlistDbObject));
+    }
+    
+    static get(id) {
+        const playlistDbObject = PlaylistRepository.#selectPlaylist(id);
+        return new Playlist(playlistDbObject);
+    }
+    
+    static create(playlist) {
+        const result = PlaylistRepository.#insertPlaylist(playlist);
+        playlist.id = result.lastInsertRowid;
     }
 
-    static listFiltered(query) {
+    static update(playlist) {
+        PlaylistRepository.#updatePlaylist(playlist);
+    }
+
+    static delete(id) {
+        PlaylistRepository.#deletePlaylist(id);
+    }
+
+    
+    static #selectPlaylists(searchQuery) {
         return database
             .prepare(`
                 SELECT *
@@ -32,7 +47,7 @@ class Playlist {
         ;
     }
 
-    static get(id) {
+    static #selectPlaylist(id) {
         return database
             .prepare(`
                 SELECT *
@@ -47,8 +62,8 @@ class Playlist {
         ;
     }
 
-    static create(playlist) {
-        database
+    static #insertPlaylist(playlist) {
+        return database
             .prepare(`
                 INSERT INTO "playlist"
                     (
@@ -66,8 +81,8 @@ class Playlist {
         ;
     }
 
-    static update(playlist) {
-        database
+    static #updatePlaylist(playlist) {
+        return database
             .prepare(`
                 UPDATE "playlist"
                 SET
@@ -83,8 +98,8 @@ class Playlist {
         ;
     }
 
-    static delete(id) {
-        database
+    static #deletePlaylist(id) {
+        return database
             .prepare(`
                 DELETE FROM "playlist"
                 WHERE
@@ -97,5 +112,3 @@ class Playlist {
         ;
     }
 }
-
-export default Playlist;

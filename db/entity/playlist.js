@@ -1,5 +1,9 @@
 export default class Playlist {
     id = null;
     name = null;
-    songs = [];
+    
+    constructor(playlistDbObject) {
+        this.id = playlistDbObject.id;
+        this.name = playlistDbObject.name;
+    }
 }
