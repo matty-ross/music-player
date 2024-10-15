@@ -42,7 +42,7 @@ export default class PlaylistRepository {
                 ;
             `)
             .all({
-                query: `%${query}%`,
+                query: `%${searchQuery}%`,
             })
         ;
     }
@@ -108,6 +108,61 @@ export default class PlaylistRepository {
             `)
             .run({
                 id: id,
+            })
+        ;
+    }
+
+    static #selectPlaylistSongIds(playlistId) {
+        return database
+            .prepare(`
+                SELECT "song_id"
+                FROM "song_playlist"
+                WHERE
+                    "playlist_id" = :playlistId
+                ;
+            `)
+            .all({
+                playlistId: playlistId,
+            })
+        ;
+    }
+
+    static #insertPlaylistSongIds(playlistId, songIds) {
+        const values = [];
+        for (const songId of songIds) {
+            values.push(`
+                (
+                    ${songId},
+                    ${playlistId}
+                )
+            `);
+        }
+        
+        return database
+            .prepare(`
+                INSERT INTO "song_playlist"
+                    (
+                        "song_id",
+                        "playlist_id"
+                    )
+                VALUES
+                    ${values.join(',')}
+                ;
+            `)
+            .run()
+        ;
+    }
+
+    static #deletePlaylistSongs(playlistId) {
+        return database
+            .prepare(`
+                DELETE FROM "song_playlist"
+                WHERE
+                    "playlist_id" = :playlistId
+                ;
+            `)
+            .run({
+                playlistId: playlistId,
             })
         ;
     }

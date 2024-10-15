@@ -1,24 +1,22 @@
 import express from 'express';
-import Playlist from '../db/playlist.js';
+
+import Playlist from '../db/entity/playlist.js';
+import PlaylistRepository from '../db/repository/playlist.js';
+
 
 const router = express.Router();
+
 
 router.get('/', (req, res) => {
     res.render('playlist/index');
 })
 
 router.get('/table', (req, res) => {
-    const query = req.query.q;
+    const searchQuery = req.query.q ?? '';
 
-    if (query) {
-        res.render('playlist/table', {
-            playlists: Playlist.listFiltered(query),
-        });
-    } else {
-        res.render('playlist/table', {
-            playlists: Playlist.list(),
-        });
-    }
+    res.render('playlist/table', {
+        playlists: PlaylistRepository.list(searchQuery),
+    });
 })
 
 router.get('/form/:id?', (req, res) => {
@@ -28,7 +26,7 @@ router.get('/form/:id?', (req, res) => {
         res.render('playlist/form', {
             title: "Update playlist",
             url: `/playlist/update/${id}`,
-            playlist: Playlist.get(id),
+            playlist: PlaylistRepository.get(id),
         });
     } else {
         res.render('playlist/form', {
@@ -42,7 +40,7 @@ router.post('/create', (req, res) => {
     const playlist = new Playlist();
     playlist.name = req.body.name;
     
-    Playlist.create(playlist);
+    PlaylistRepository.create(playlist);
     
     res.send({
         message: "Playlist created",
@@ -50,10 +48,10 @@ router.post('/create', (req, res) => {
 });
 
 router.post('/update/:id', (req, res) => {
-    const playlist = Playlist.get(req.params.id);
+    const playlist = PlaylistRepository.get(req.params.id);
     playlist.name = req.body.name;
     
-    Playlist.update(playlist);
+    PlaylistRepository.update(playlist);
     
     res.send({
         message: "Playlist updated",
@@ -61,11 +59,12 @@ router.post('/update/:id', (req, res) => {
 });
 
 router.post('/delete/:id', (req, res) => {
-    Playlist.delete(req.params.id);
+    PlaylistRepository.delete(req.params.id);
     
     res.send({
         message: "Playlist deleted",
     });
 });
+
 
 export default router;

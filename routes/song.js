@@ -1,29 +1,28 @@
 import express from 'express';
 import multer from 'multer';
-import Song from '../db/song.js';
+
+import Song from '../db/entity/song.js';
+import SongRepository from '../db/repository/song.js';
+
 
 const router = express.Router();
+
 
 const upload = multer({
     dest: './public/upload/song',
 });
+
 
 router.get('/', (req, res) => {
     res.render('song/index');
 })
 
 router.get('/table', (req, res) => {
-    const query = req.query.q;
+    const searchQuery = req.query.q ?? '';
 
-    if (query) {
-        res.render('song/table', {
-            songs: Song.listFiltered(query),
-        });
-    } else {
-        res.render('song/table', {
-            songs: Song.list(),
-        });
-    }
+    res.render('song/table', {
+        songs: SongRepository.list(searchQuery),
+    });
 })
 
 router.get('/form/:id?', (req, res) => {
@@ -33,7 +32,7 @@ router.get('/form/:id?', (req, res) => {
         res.render('song/form', {
             title: "Update song",
             url: `/song/update/${id}`,
-            song: Song.get(id),
+            song: SongRepository.get(id),
         });
     } else {
         res.render('song/form', {
@@ -49,7 +48,7 @@ router.post('/create', upload.single('file'), (req, res) => {
     song.artist = req.body.artist;
     song.file = req.file.path;
     
-    Song.create(song);
+    SongRepository.create(song);
     
     res.send({
         message: "Song created",
@@ -57,12 +56,12 @@ router.post('/create', upload.single('file'), (req, res) => {
 });
 
 router.post('/update/:id', upload.single('file'), (req, res) => {
-    const song = Song.get(req.params.id);
+    const song = SongRepository.get(req.params.id);
     song.name = req.body.name;
     song.artist = req.body.artist;
     song.file = req.file.path;
     
-    Song.update(song);
+    SongRepository.update(song);
     
     res.send({
         message: "Song updated",
@@ -70,11 +69,12 @@ router.post('/update/:id', upload.single('file'), (req, res) => {
 });
 
 router.post('/delete/:id', (req, res) => {
-    Song.delete(req.params.id);
+    SongRepository.delete(req.params.id);
     
     res.send({
         message: "Song deleted",
     });
 });
+
 
 export default router;
