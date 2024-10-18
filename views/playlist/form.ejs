@@ -27,6 +27,29 @@
                     required
                 >
             </div>
+            <hr>
+            <div data-controller="collection">
+                <span>Songs</span>
+                <input
+                    class="form-control form-control-sm d-inline w-auto ms-3"
+                    type="text"
+                    placeholder="filter..."
+                    size="30"
+                    data-action="input->collection#filter"
+                >
+                <ul class="overflow-auto my-2 px-1" style="height: 10em;">
+                    <% for (const song of songs) { %>
+                        <li class="form-check" data-collection-target="item">
+                            <input
+                                id="<%= `song-${song.id}` %>"
+                                class="form-check-input"
+                                type="checkbox"
+                            >
+                            <label for="<%= `song-${song.id}` %>"><%= `${song.artist} - ${song.name}` %></label>
+                        </li>
+                    <% } %>
+                </ul>
+            </div>
         </div>
         
         <div class="modal-footer">

@@ -2,6 +2,7 @@ import express from 'express';
 
 import Playlist from '../db/entity/playlist.js';
 import PlaylistRepository from '../db/repository/playlist.js';
+import SongRepository from '../db/repository/song.js';
 
 
 const router = express.Router();
@@ -27,11 +28,13 @@ router.get('/form/:id?', (req, res) => {
             title: "Update playlist",
             url: `/playlist/update/${id}`,
             playlist: PlaylistRepository.get(id),
+            songs: SongRepository.list(),
         });
     } else {
         res.render('playlist/form', {
             title: "Create playlist",
             url: '/playlist/create',
+            songs: SongRepository.list(),
         });
     }
 })
