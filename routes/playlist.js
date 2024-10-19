@@ -62,7 +62,9 @@ router.post('/update/:id', (req, res) => {
 });
 
 router.post('/delete/:id', (req, res) => {
-    PlaylistRepository.delete(req.params.id);
+    const playlist = PlaylistRepository.get(req.params.id);
+    
+    PlaylistRepository.delete(playlist);
     
     res.send({
         message: "Playlist deleted",

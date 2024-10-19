@@ -9,26 +9,51 @@ const database = new sqlite.DatabaseSync('./db.sqlite3');
 export default class PlaylistRepository {
     
     static list(searchQuery = '') {
+        const playlists = [];
+        
         const playlistDbObjects = PlaylistRepository.#selectPlaylists(searchQuery);
-        return playlistDbObjects.map(playlistDbObject => new Playlist(playlistDbObject));
+        for (const playlistDbObject of playlistDbObjects) {
+            const playlist = new Playlist();
+            playlist.id = playlistDbObject.id;
+            playlist.name = playlistDbObject.name;
+            playlist.songIds = PlaylistRepository.#selectPlaylistSongIds(playlist);
+            
+            playlists.push(playlist);
+        }
+        
+        return playlists;
     }
     
     static get(id) {
         const playlistDbObject = PlaylistRepository.#selectPlaylist(id);
-        return new Playlist(playlistDbObject);
+        
+        const playlist = new Playlist();
+        playlist.id = playlistDbObject.id;
+        playlist.name = playlistDbObject.name;
+        playlist.songIds = PlaylistRepository.#selectPlaylistSongIds(playlist);
+        
+        return playlist;
     }
     
     static create(playlist) {
         const result = PlaylistRepository.#insertPlaylist(playlist);
         playlist.id = result.lastInsertRowid;
+        if (playlist.songIds.length > 0) {
+            PlaylistRepository.#insertPlaylistSongIds(playlist);
+        }
     }
 
     static update(playlist) {
+        PlaylistRepository.#deletePlaylistSongIds(playlist);
         PlaylistRepository.#updatePlaylist(playlist);
+        if (playlist.songIds.length > 0) {
+            PlaylistRepository.#insertPlaylistSongIds(playlist);
+        }
     }
 
-    static delete(id) {
-        PlaylistRepository.#deletePlaylist(id);
+    static delete(playlist) {
+        PlaylistRepository.#deletePlaylistSongIds(playlist);
+        PlaylistRepository.#deletePlaylist(playlist);
     }
 
     
@@ -38,11 +63,11 @@ export default class PlaylistRepository {
                 SELECT *
                 FROM "playlist"
                 WHERE
-                    "name" LIKE :query
+                    "name" LIKE :searchQuery
                 ;
             `)
             .all({
-                query: `%${searchQuery}%`,
+                searchQuery: `%${searchQuery}%`,
             })
         ;
     }
@@ -98,7 +123,7 @@ export default class PlaylistRepository {
         ;
     }
 
-    static #deletePlaylist(id) {
+    static #deletePlaylist(playlist) {
         return database
             .prepare(`
                 DELETE FROM "playlist"
@@ -107,12 +132,12 @@ export default class PlaylistRepository {
                 ;
             `)
             .run({
-                id: id,
+                id: playlist.id,
             })
         ;
     }
 
-    static #selectPlaylistSongIds(playlistId) {
+    static #selectPlaylistSongIds(playlist) {
         return database
             .prepare(`
                 SELECT "song_id"
@@ -122,18 +147,18 @@ export default class PlaylistRepository {
                 ;
             `)
             .all({
-                playlistId: playlistId,
+                playlistId: playlist.id,
             })
         ;
     }
 
-    static #insertPlaylistSongIds(playlistId, songIds) {
+    static #insertPlaylistSongIds(playlist) {
         const values = [];
-        for (const songId of songIds) {
+        for (const songId of playlist.songIds) {
             values.push(`
                 (
                     ${songId},
-                    ${playlistId}
+                    ${playlist.id}
                 )
             `);
         }
@@ -153,7 +178,7 @@ export default class PlaylistRepository {
         ;
     }
 
-    static #deletePlaylistSongs(playlistId) {
+    static #deletePlaylistSongIds(playlist) {
         return database
             .prepare(`
                 DELETE FROM "song_playlist"
@@ -162,7 +187,7 @@ export default class PlaylistRepository {
                 ;
             `)
             .run({
-                playlistId: playlistId,
+                playlistId: playlist.id,
             })
         ;
     }
