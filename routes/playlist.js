@@ -8,16 +8,18 @@ import SongRepository from '../db/repository/song.js';
 const router = express.Router();
 
 
-function getSongIds(req) {
-    const data = req.body['song-ids'];
-    
-    if (data == null) {
-        return [];
-    } else if (!(data instanceof Array)) {
-        return [data];
+function handleSubmittedFormData(playlist, req) {
+    const name = req.body['name'];
+    playlist.name = name;
+
+    const songId = req.body['song-id'];
+    if (songId == null) {
+        playlist.songIds = [];
+    } else if (!Array.isArray(songId)) {
+        playlist.songIds = [songId];
+    } else {
+        playlist.songIds = songId;
     }
-    
-    return data;
 }
 
 
@@ -54,8 +56,7 @@ router.get('/form/:id?', (req, res) => {
 
 router.post('/create', (req, res) => {
     const playlist = new Playlist();
-    playlist.name = req.body['name'];
-    playlist.songIds = getSongIds(req);
+    handleSubmittedFormData(playlist, req);
     
     PlaylistRepository.create(playlist);
     
@@ -66,8 +67,7 @@ router.post('/create', (req, res) => {
 
 router.post('/update/:id', (req, res) => {
     const playlist = PlaylistRepository.get(req.params.id);
-    playlist.name = req.body['name'];
-    playlist.songIds = getSongIds(req);
+    handleSubmittedFormData(playlist, req);
     
     PlaylistRepository.update(playlist);
     
