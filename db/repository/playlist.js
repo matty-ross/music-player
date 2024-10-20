@@ -11,13 +11,10 @@ export default class PlaylistRepository {
     static list(searchQuery = '') {
         const playlists = [];
         
-        const playlistDbObjects = PlaylistRepository.#selectPlaylists(searchQuery);
-        for (const playlistDbObject of playlistDbObjects) {
-            const playlist = new Playlist();
-            playlist.id = playlistDbObject.id;
-            playlist.name = playlistDbObject.name;
-            playlist.songIds = PlaylistRepository.#selectPlaylistSongIds(playlist);
-            
+        const dbPlaylists = PlaylistRepository.#selectPlaylists(searchQuery);
+        for (const dbPlaylist of dbPlaylists) {
+            const dbPlaylistSongIds = PlaylistRepository.#selectPlaylistSongIds(dbPlaylist['id']);
+            const playlist = new Playlist(dbPlaylist, dbPlaylistSongIds);
             playlists.push(playlist);
         }
         
@@ -25,13 +22,10 @@ export default class PlaylistRepository {
     }
     
     static get(id) {
-        const playlistDbObject = PlaylistRepository.#selectPlaylist(id);
+        const dbPlaylist = PlaylistRepository.#selectPlaylist(id);
+        const dbPlaylistSongIds = PlaylistRepository.#selectPlaylistSongIds(id);
         
-        const playlist = new Playlist();
-        playlist.id = playlistDbObject.id;
-        playlist.name = playlistDbObject.name;
-        playlist.songIds = PlaylistRepository.#selectPlaylistSongIds(playlist);
-        
+        const playlist = new Playlist(dbPlaylist, dbPlaylistSongIds);
         return playlist;
     }
     
@@ -91,13 +85,9 @@ export default class PlaylistRepository {
         return database
             .prepare(`
                 INSERT INTO "playlist"
-                    (
-                        "name"
-                    )
+                    ("name")
                 VALUES
-                    (
-                        :name
-                    )
+                    (:name)
                 ;
             `)
             .run({
@@ -137,7 +127,7 @@ export default class PlaylistRepository {
         ;
     }
 
-    static #selectPlaylistSongIds(playlist) {
+    static #selectPlaylistSongIds(playlistId) {
         return database
             .prepare(`
                 SELECT "song_id"
@@ -147,7 +137,7 @@ export default class PlaylistRepository {
                 ;
             `)
             .all({
-                playlistId: playlist.id,
+                playlistId: playlistId,
             })
         ;
     }
@@ -155,21 +145,13 @@ export default class PlaylistRepository {
     static #insertPlaylistSongIds(playlist) {
         const values = [];
         for (const songId of playlist.songIds) {
-            values.push(`
-                (
-                    ${songId},
-                    ${playlist.id}
-                )
-            `);
+            values.push(`(${songId}, ${playlist.id})`);
         }
         
         return database
             .prepare(`
                 INSERT INTO "song_playlist"
-                    (
-                        "song_id",
-                        "playlist_id"
-                    )
+                    ("song_id", "playlist_id")
                 VALUES
                     ${values.join(',')}
                 ;

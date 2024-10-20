@@ -8,12 +8,25 @@ import SongRepository from '../db/repository/song.js';
 const router = express.Router();
 
 
+function getSongIds(req) {
+    const data = req.body['song-ids'];
+    
+    if (data == null) {
+        return [];
+    } else if (!(data instanceof Array)) {
+        return [data];
+    }
+    
+    return data;
+}
+
+
 router.get('/', (req, res) => {
     res.render('playlist/index');
 })
 
 router.get('/table', (req, res) => {
-    const searchQuery = req.query.q ?? '';
+    const searchQuery = req.query['q'] ?? '';
 
     res.render('playlist/table', {
         playlists: PlaylistRepository.list(searchQuery),
@@ -41,7 +54,8 @@ router.get('/form/:id?', (req, res) => {
 
 router.post('/create', (req, res) => {
     const playlist = new Playlist();
-    playlist.name = req.body.name;
+    playlist.name = req.body['name'];
+    playlist.songIds = getSongIds(req);
     
     PlaylistRepository.create(playlist);
     
@@ -52,7 +66,8 @@ router.post('/create', (req, res) => {
 
 router.post('/update/:id', (req, res) => {
     const playlist = PlaylistRepository.get(req.params.id);
-    playlist.name = req.body.name;
+    playlist.name = req.body['name'];
+    playlist.songIds = getSongIds(req);
     
     PlaylistRepository.update(playlist);
     
