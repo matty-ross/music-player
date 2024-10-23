@@ -3,11 +3,20 @@ export default class Song {
     name = null;
     artist = null;
     file = null;
+    playlistIds = [];
 
-    constructor(songDbObject) {
-        this.id = songDbObject.id;
-        this.name = songDbObject.name;
-        this.artist = songDbObject.artist;
-        this.file = songDbObject.file;
+    constructor(dbSong = null, dbSongPlaylistIds = null) {
+        if (dbSong) {
+            this.id = dbSong['id'];
+            this.name = dbSong['name'];
+            this.artist = dbSong['artist'];
+            this.file = dbSong['file'];
+        }
+
+        if (dbSongPlaylistIds) {
+            for (const dbSongPlaylistId of dbSongPlaylistIds) {
+                this.playlistIds.push(dbSongPlaylistId['playlist_id']);
+            }
+        }
     }
 }

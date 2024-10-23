@@ -8,12 +8,7 @@
         
         <div class="modal-header">
             <div class="modal-title h5"><%= title %></div>
-            <button
-                class="btn-close"
-                type="button"
-                data-bs-dismiss="modal"
-            >
-            </button>
+            <button class="btn-close" type="button" data-bs-dismiss="modal"></button>
         </div>
     
         <div class="modal-body">
@@ -46,25 +41,42 @@
                     class="form-control"
                     type="file"
                     name="file"
-                    required
                     accept="audio/mp3"
                 >
+            </div>
+            <hr>
+            <div data-controller="collection">
+                <span>Playlists</span>
+                <input
+                    class="form-control form-control-sm d-inline w-auto ms-3"
+                    type="text"
+                    placeholder="filter..."
+                    size="30"
+                    data-action="input->collection#filter"
+                >
+                <ul class="overflow-auto my-2 px-1" style="height: 10em;">
+                    <% for (const playlist of playlists) { %>
+                        <li class="form-check" data-collection-target="item">
+                            <input
+                                id="<%= `playlist-${playlist.id}` %>"
+                                class="form-check-input"
+                                type="checkbox"
+                                name="playlist-id"
+                                value="<%= playlist.id %>"
+                                <% if (locals.song?.playlistIds.includes(playlist.id)) { %>
+                                    checked
+                                <% } %>
+                            >
+                            <label for="<%= `playlist-${playlist.id}` %>"><%= playlist.name %></label>
+                        </li>
+                    <% } %>
+                </ul>
             </div>
         </div>
         
         <div class="modal-footer">
-            <button
-                class="btn btn-outline-secondary"
-                type="reset"
-            >
-                Reset
-            </button>
-            <button
-                class="btn btn-primary"
-                type="submit"
-            >
-                Submit
-            </button>
+            <button class="btn btn-outline-secondary" type="reset">Reset</button>
+            <button class="btn btn-primary" type="submit">Submit</button>
         </div>
         
     </form>
