@@ -35,7 +35,7 @@ router.get('/table', (req, res) => {
     });
 })
 
-router.get('/form/:id?', (req, res) => {
+router.get('/form/{:id}', (req, res) => {
     const id = req.params.id;
     
     if (id) {
@@ -65,7 +65,7 @@ router.post('/create', (req, res) => {
     });
 });
 
-router.post('/update/:id', (req, res) => {
+router.post('/update/{:id}', (req, res) => {
     const playlist = PlaylistRepository.get(req.params.id);
     handleSubmittedFormData(playlist, req);
     
@@ -76,7 +76,7 @@ router.post('/update/:id', (req, res) => {
     });
 });
 
-router.post('/delete/:id', (req, res) => {
+router.post('/delete/{:id}', (req, res) => {
     const playlist = PlaylistRepository.get(req.params.id);
     
     PlaylistRepository.delete(playlist);

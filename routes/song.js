@@ -49,7 +49,7 @@ router.get('/table', (req, res) => {
     });
 })
 
-router.get('/form/:id?', (req, res) => {
+router.get('/form/{:id}', (req, res) => {
     const id = req.params.id;
     
     if (id) {
@@ -79,7 +79,7 @@ router.post('/create', upload.single('file'), (req, res) => {
     });
 });
 
-router.post('/update/:id', upload.single('file'), (req, res) => {
+router.post('/update/{:id}', upload.single('file'), (req, res) => {
     const song = SongRepository.get(req.params.id);
     handleSubmittedFormData(song, req);
     
@@ -90,7 +90,7 @@ router.post('/update/:id', upload.single('file'), (req, res) => {
     });
 });
 
-router.post('/delete/:id', (req, res) => {
+router.post('/delete/{:id}', (req, res) => {
     const song = SongRepository.get(req.params.id);
     
     SongRepository.delete(song);
