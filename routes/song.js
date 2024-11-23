@@ -79,7 +79,7 @@ router.post('/create', upload.single('file'), (req, res) => {
     });
 });
 
-router.post('/update/{:id}', upload.single('file'), (req, res) => {
+router.post('/update/:id', upload.single('file'), (req, res) => {
     const song = SongRepository.get(req.params.id);
     handleSubmittedFormData(song, req);
     
@@ -90,13 +90,25 @@ router.post('/update/{:id}', upload.single('file'), (req, res) => {
     });
 });
 
-router.post('/delete/{:id}', (req, res) => {
+router.post('/delete/:id', (req, res) => {
     const song = SongRepository.get(req.params.id);
     
     SongRepository.delete(song);
     
     res.send({
         message: "Song deleted",
+    });
+});
+
+router.get('/download/:id', (req, res) => {
+    const song = SongRepository.get(req.params.id);
+
+    res.sendFile(song.file, {
+        root: '.',
+        headers: {
+            'Content-Type': 'audo/mp3',
+            'Content-Disposition': `attachment; filename=${req.params.id}.mp3`,
+        }
     });
 });
 

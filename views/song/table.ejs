@@ -33,12 +33,13 @@
                         >
                             <i class="bi bi-play"></i>
                         </button>
-                        <button
-                            type="button"
+                        <a
                             class="btn btn-outline-primary"
+                            href="<%= `/song/download/${song.id}` %>"
+                            data-turbo="false"
                         >
                             <i class="bi bi-download"></i>
-                        </button>
+                        </a>
                     </td>
                     <td><%= song.name %></td>
                     <td><%= song.artist %></td>
