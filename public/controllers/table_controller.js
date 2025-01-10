@@ -1,9 +1,13 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
-    static outlets = [
-        'page',
+    static targets = [
+        'table',
     ]
+    
+    static values = {
+        name: String,
+    }
 
     connect() {
         this.#load();
@@ -14,12 +18,16 @@ export default class extends Controller {
         this.#load(query);
     }
 
+    reload() {
+        this.tableTarget.reload();
+    }
+
     #load(query = null) {
-        let url = `/${this.pageOutlet.nameValue}/table`;
+        let url = `/${this.nameValue}/table`;
         if (query != null) {
             url += `?q=${query}`;
         }
 
-        this.pageOutlet.tableTarget.setAttribute('src', url);
+        this.tableTarget.setAttribute('src', url);
     }
 }

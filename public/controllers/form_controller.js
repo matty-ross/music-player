@@ -2,29 +2,31 @@ import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
     static outlets = [
-        'page',
+        'modal',
+        'toast',
+        'table',
     ]
 
-    #modal = null;
-    #toast = null;
-
-    connect() {
-        this.#modal = new bootstrap.Modal(this.pageOutlet.modalTarget);
-        this.#toast = new bootstrap.Toast(this.pageOutlet.toastTarget);
+    static values = {
+        name: String,
     }
 
-    open() {
-    }
-
-    submitEnd() {
-    }
-
-    #load(id = null) {
-        let url = `/${this.pageOutlet.nameValue}/form`;
+    open(event) {
+        const id = event.params.id;
+        
+        let url = `/${this.nameValue}/form`;
         if (id != null) {
             url += `/${id}`;
         }
+        
+        this.modalOutlet.show(url);
+    }
 
-        this.pageOutlet.modalContent.setAttribute('src', url);
+    async submitEnd(event) {
+        const json = await event.detail.fetchResponse.response.json();
+
+        this.modalOutlet.hide();
+        this.toastOutlet.show(json.message);
+        this.tableOutlet.reload();
     }
 }

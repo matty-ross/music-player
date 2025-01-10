@@ -7,9 +7,10 @@ export default class extends Controller {
 
     filter(event) {
         const search = event.target.value.toLowerCase();
-        for (const item of this.itemTargets) {
-            const itemText = item.innerText.toLowerCase();
-            item.hidden = !itemText.includes(search);
+        
+        for (const itemTarget of this.itemTargets) {
+            const itemText = itemTarget.textContent.toLowerCase();
+            itemTarget.hidden = !itemText.includes(search);
         }
     }
 }

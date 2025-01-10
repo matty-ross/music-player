@@ -12,46 +12,65 @@
     </head>
     <body>
         <div class="container">
+
+            <h1 class="mt-3">Songs</h1>
+
             <div
-                data-controller="entity"
-                data-entity-name-value="song"
+                data-controller="form"
+                data-form-modal-outlet="#modal"
+                data-form-toast-outlet="#toast"
+                data-form-table-outlet="#table"
+                data-form-name-value="song"
             >
-                <h1 class="mt-3">Songs</h1>
-                
-                <div class="d-flex gap-3 my-4">
-                    <button
-                        class="btn btn-outline-primary"
-                        type="button"
-                        data-action="click->entity#loadForm"
-                    >
-                        <i class="bi bi-plus"></i>
-                    </button>
-                    <input
-                        class="form-control w-auto"
-                        type="text"
-                        placeholder="filter..."
-                        size="30"
-                        data-action="change->entity#filterTable"
-                    >
+                <div
+                    id="table"
+                    data-controller="table"
+                    data-table-name-value="song"
+                >
+                    <div class="d-flex gap-3 my-4">
+                        <button
+                            class="btn btn-outline-primary"
+                            type="button"
+                            data-action="click->form#open"
+                        >
+                            <i class="bi bi-plus"></i>
+                        </button>
+                        <input
+                            class="form-control w-auto"
+                            type="text"
+                            placeholder="filter..."
+                            size="30"
+                            data-action="change->table#filter"
+                        >
+                    </div>
+                    <turbo-frame id="table" data-table-target="table"></turbo-frame>
                 </div>
                 
-                <turbo-frame id="table" data-entity-target="table"></turbo-frame>
-                
-                <div class="modal" data-bs-backdrop="static" data-entity-target="modal">
-                    <div class="modal-dialog modal-dialog-centered">
-                        <div class="modal-content">
-                            <turbo-frame id="form" data-entity-target="form"></turbo-frame>
+                <div
+                    id="modal"
+                    data-controller="modal"
+                >
+                    <div class="modal" data-bs-backdrop="static" data-modal-target="modal">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <turbo-frame id="modal-content" data-modal-target="modalContent"></turbo-frame>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="toast-container position-absolute bottom-0 py-3">
-                    <div class="toast text-bg-success" data-entity-target="toast">
-                        <div class="toast-body" data-entity-target="message"></div>
+                <div
+                    id="toast"
+                    data-controller="toast"
+                >
+                    <div class="toast-container position-absolute bottom-0 py-3">
+                        <div class="toast text-bg-success" data-toast-target="toast">
+                            <div class="toast-body" data-toast-target="toastBody"></div>
+                        </div>
                     </div>
                 </div>
-
             </div>
+
         </div>
     </body>
 </html>

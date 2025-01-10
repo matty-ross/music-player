@@ -1,9 +1,9 @@
-<turbo-frame id="form">
+<turbo-frame id="modal-content">
     <form
         action="<%= url %>"
         method="post"
         enctype="multipart/form-data"
-        data-action="turbo:submit-end->entity#formSubmitted"
+        data-action="turbo:submit-end->form#submitEnd"
     >
         
         <div class="modal-header">
@@ -67,7 +67,7 @@
                                     checked
                                 <% } %>
                             >
-                            <label for="<%= `playlist-${playlist.id}` %>"><%= playlist.name %></label>
+                            <label class="form-check-label" for="<%= `playlist-${playlist.id}` %>"><%= playlist.name %></label>
                         </li>
                     <% } %>
                 </ul>
