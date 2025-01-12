@@ -6,7 +6,7 @@ export default class extends Controller {
     ]
     
     static values = {
-        name: String,
+        url: String,
     }
 
     connect() {
@@ -23,7 +23,7 @@ export default class extends Controller {
     }
 
     #load(query = null) {
-        let url = `/${this.nameValue}/table`;
+        let url = this.urlValue;
         if (query != null) {
             url += `?q=${query}`;
         }

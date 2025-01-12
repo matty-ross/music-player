@@ -2,27 +2,21 @@ import { Controller } from '@hotwired/stimulus';
 
 export default class extends Controller {
     static outlets = [
+        'table',
         'modal',
         'toast',
-        'table',
     ]
 
     static values = {
         name: String,
     }
 
-    open(event) {
-        const id = event.params.id;
-        
-        let url = `/${this.nameValue}/form`;
-        if (id != null) {
-            url += `/${id}`;
-        }
-        
+    openForm(event) {
+        const url = event.params.url;
         this.modalOutlet.show(url);
     }
 
-    async submitEnd(event) {
+    async onFormSubmitEnd(event) {
         const json = await event.detail.fetchResponse.response.json();
 
         this.modalOutlet.hide();

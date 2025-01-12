@@ -12,26 +12,26 @@
     </head>
     <body>
         <div class="container">
-
-            <h1 class="mt-3">Songs</h1>
-
             <div
-                data-controller="form"
-                data-form-modal-outlet="#modal"
-                data-form-toast-outlet="#toast"
-                data-form-table-outlet="#table"
-                data-form-name-value="song"
+                data-controller="page"
+                data-page-table-outlet="#table-controller"
+                data-page-modal-outlet="#modal-controller"
+                data-page-toast-outlet="#toast-controller"
             >
+                
+                <h1 class="mt-3">Songs</h1>
+
                 <div
-                    id="table"
+                    id="table-controller"
                     data-controller="table"
-                    data-table-name-value="song"
+                    data-table-url-value="/song/table"
                 >
                     <div class="d-flex gap-3 my-4">
                         <button
                             class="btn btn-outline-primary"
                             type="button"
-                            data-action="click->form#open"
+                            data-action="click->page#openForm"
+                            data-page-url-param="/song/form"
                         >
                             <i class="bi bi-plus"></i>
                         </button>
@@ -47,7 +47,7 @@
                 </div>
                 
                 <div
-                    id="modal"
+                    id="modal-controller"
                     data-controller="modal"
                 >
                     <div class="modal" data-bs-backdrop="static" data-modal-target="modal">
@@ -60,7 +60,7 @@
                 </div>
 
                 <div
-                    id="toast"
+                    id="toast-controller"
                     data-controller="toast"
                 >
                     <div class="toast-container position-absolute bottom-0 py-3">
@@ -69,8 +69,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
 
+            </div>
         </div>
     </body>
 </html>
