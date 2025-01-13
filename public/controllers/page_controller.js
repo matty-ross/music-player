@@ -23,4 +23,22 @@ export default class extends Controller {
         this.toastOutlet.show(json.message);
         this.tableOutlet.reload();
     }
+
+    async confirmDelete(event) {
+        const result = await Swal.fire({
+            text: event.params.text,
+            icon: 'question',
+            showCancelButton: true,
+        });
+
+        if (result.isConfirmed) {
+            const response = await fetch(event.params.url, {
+                method: 'POST',
+            });
+            const json = await response.json();
+            
+            this.toastOutlet.show(json.message);
+            this.tableOutlet.reload();
+        }
+    }
 }

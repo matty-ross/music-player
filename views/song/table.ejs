@@ -22,8 +22,9 @@
                         <button
                             type="button"
                             class="btn btn-outline-danger"
-                            data-action="click->entity#delete"
-                            data-entity-id-param="<%= song.id %>"
+                            data-action="click->page#confirmDelete"
+                            data-page-text-param="Really delete this song?"
+                            data-page-url-param="<%= `/song/delete/${song.id}` %>"
                         >
                             <i class="bi bi-trash"></i>
                         </button>
