@@ -13,16 +13,17 @@
                         <button
                             type="button"
                             class="btn btn-outline-secondary"
-                            data-action="click->entity#loadForm"
-                            data-entity-id-param="<%= playlist.id %>"
+                            data-action="click->page#openForm"
+                            data-page-url-param="<%= `/playlist/form/${playlist.id}` %>"
                         >
                             <i class="bi bi-pencil"></i>
                         </button>
                         <button
                             type="button"
                             class="btn btn-outline-danger"
-                            data-action="click->entity#delete"
-                            data-entity-id-param="<%= playlist.id %>"
+                            data-action="click->page#confirmDelete"
+                            data-page-text-param="Really delete this playlist?"
+                            data-page-url-param="<%= `/playlist/delete/${playlist.id}` %>"
                         >
                             <i class="bi bi-trash"></i>
                         </button>

@@ -1,8 +1,8 @@
-<turbo-frame id="form">
+<turbo-frame id="modal-content">
     <form
         action="<%= url %>"
         method="post"
-        data-action="turbo:submit-end->entity#formSubmitted"
+        data-action="turbo:submit-end->page#onFormSubmitEnd"
     >
         
         <div class="modal-header">
@@ -45,7 +45,7 @@
                                     checked
                                 <% } %>
                             >
-                            <label for="<%= `song-${song.id}` %>"><%= `${song.artist} - ${song.name}` %></label>
+                            <label class="form-check-label" for="<%= `song-${song.id}` %>"><%= `${song.artist} - ${song.name}` %></label>
                         </li>
                     <% } %>
                 </ul>

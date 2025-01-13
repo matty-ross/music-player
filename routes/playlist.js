@@ -35,7 +35,7 @@ router.get('/table', (req, res) => {
     });
 })
 
-router.get('/form/{:id}', (req, res) => {
+router.get('/form{/:id}', (req, res) => {
     const id = req.params.id;
     
     if (id) {
