@@ -112,5 +112,14 @@ router.get('/download/:id', (req, res) => {
     });
 });
 
+router.get('/player/:id', (req, res) => {
+    const id = req.params.id;
+
+    res.render('song/player.ejs', {
+        url: `/song/download/${id}`,
+        song: SongRepository.get(id),
+    });
+});
+
 
 export default router;

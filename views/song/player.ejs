@@ -1,0 +1,29 @@
+<turbo-frame id="modal-content">
+    
+    <div class="modal-header">
+        <div class="modal-title h5">Song player</div>
+        <button class="btn-close" type="button" data-bs-dismiss="modal"></button>
+    </div>
+
+    <div class="modal-body">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th scope="row">Name</th>
+                    <td><%= song.name %></td>
+                </tr>
+                <tr>
+                    <th scope="row">Artist</th>
+                    <td><%= song.artist %></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <audio
+            class="w-100 mt-3"    
+            src="<%= url %>"
+            controls
+        ></audio>
+    </div>
+    
+</turbo-frame>

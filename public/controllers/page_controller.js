@@ -11,7 +11,7 @@ export default class extends Controller {
         name: String,
     }
 
-    openForm(event) {
+    openModal(event) {
         const url = event.params.url;
         this.modalOutlet.show(url);
     }
