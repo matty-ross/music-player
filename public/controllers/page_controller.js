@@ -12,8 +12,7 @@ export default class extends Controller {
     }
 
     openModal(event) {
-        const url = event.params.url;
-        this.modalOutlet.show(url);
+        this.modalOutlet.show(event.params.url);
     }
 
     async onFormSubmitEnd(event) {

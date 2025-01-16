@@ -13,8 +13,8 @@ export default class extends Controller {
     }
 
     async show(url) {
-        this.modalContentTarget.setAttribute('src', url);
-        await this.modalTarget.loaded;
+        this.modalContentTarget.src = url;
+        await this.modalContentTarget.loaded;
 
         this.#modal.show();
     }

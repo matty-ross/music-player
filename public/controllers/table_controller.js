@@ -14,8 +14,7 @@ export default class extends Controller {
     }
 
     filter(event) {
-        const query = event.target.value;
-        this.#load(query);
+        this.#load(event.target.value);
     }
 
     reload() {
@@ -28,6 +27,6 @@ export default class extends Controller {
             url += `?q=${query}`;
         }
 
-        this.tableTarget.setAttribute('src', url);
+        this.tableTarget.src = url;
     }
 }
