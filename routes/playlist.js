@@ -86,5 +86,15 @@ router.post('/delete/:id', (req, res) => {
     });
 });
 
+router.get('/player/:id', (req, res) => {
+    const playlist = PlaylistRepository.get(req.params.id);
+    const songs = playlist.songIds.map(songId => SongRepository.get(songId));
+    
+    res.render('playlist/player.ejs', {
+        playlist: playlist,
+        songs: songs,
+    });
+});
+
 
 export default router;

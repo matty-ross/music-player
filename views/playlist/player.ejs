@@ -1,0 +1,46 @@
+<turbo-frame id="modal-content">
+    
+    <div class="modal-header">
+        <div class="modal-title h5">Playlist player</div>
+        <button class="btn-close" type="button" data-bs-dismiss="modal"></button>
+    </div>
+
+    <div class="modal-body">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th scope="row">Name</th>
+                    <td><%= playlist.name %></td>
+                </tr>
+                <tr>
+                    <th scope="row">Number of songs</th>
+                    <td><%= songs.length %></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div>
+            <button class="btn btn-sm btn-outline-primary" type="button">
+                <i class="bi bi-play"></i> Play all
+            </button>
+            <button class="btn btn-sm btn-outline-primary" type="button">
+                <i class="bi bi-shuffle"></i> Shuffle
+            </button>
+        </div>
+        
+        <audio
+            class="w-100 mt-3"    
+            src=""
+            controls
+        ></audio>
+        
+        <hr>
+        
+        <ul>
+            <% for (const song of songs) { %>
+                <li><%= `${song.artist} - ${song.name}` %></li>
+            <% } %>
+        </ul>
+    </div>
+    
+</turbo-frame>

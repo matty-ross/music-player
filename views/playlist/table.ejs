@@ -27,6 +27,14 @@
                         >
                             <i class="bi bi-trash"></i>
                         </button>
+                        <button
+                            type="button"
+                            class="btn btn-outline-primary"
+                            data-action="click->page#openModal"
+                            data-page-url-param="<%= `/playlist/player/${playlist.id}` %>"
+                        >
+                            <i class="bi bi-play"></i>
+                        </button>
                     </td>
                     <td><%= playlist.name %></td>
                 </tr>
