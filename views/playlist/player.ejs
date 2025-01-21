@@ -19,28 +19,46 @@
             </tbody>
         </table>
 
-        <div>
-            <button class="btn btn-sm btn-outline-primary" type="button">
-                <i class="bi bi-play"></i> Play all
-            </button>
-            <button class="btn btn-sm btn-outline-primary" type="button">
-                <i class="bi bi-shuffle"></i> Shuffle
-            </button>
+        <div
+            data-controller="playlist-player"
+            data-playlist-player-song-index-value="-1"
+        >
+            
+            <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="playlist-player-autoplay" checked data-playlist-player-target="autoplay">
+                <label class="form-check-label" for="playlist-player-autoplay">Autoplay</label>
+            </div>
+            
+            <audio
+                class="w-100 my-3"    
+                src=""
+                controls
+                data-playlist-player-target="player"
+                data-action="ended->playlist-player#onSongEnded"
+            ></audio>
+
+            <table class="table align-middle">
+                <tbody>
+                    <% for (const [index, song] of songs.entries()) { %>
+                        <tr data-playlist-player-target="song" data-url="<%= `/song/download/${song.id}` %>">
+                            <td>
+                                <button
+                                    class="btn btn-sm btn-outline-primary me-2"
+                                    type="button"
+                                    data-action="click->playlist-player#play"
+                                    data-playlist-player-song-index-param="<%= index %>"
+                                >
+                                    <i class="bi bi-play"></i>
+                                </button>
+                            </td>
+                            <td><%= song.artist %></td>
+                            <td><%= song.name %></td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+
         </div>
-        
-        <audio
-            class="w-100 mt-3"    
-            src=""
-            controls
-        ></audio>
-        
-        <hr>
-        
-        <ul>
-            <% for (const song of songs) { %>
-                <li><%= `${song.artist} - ${song.name}` %></li>
-            <% } %>
-        </ul>
     </div>
     
 </turbo-frame>
