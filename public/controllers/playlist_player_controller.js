@@ -11,14 +11,20 @@ export default class extends Controller {
         songIndex: Number,
     }
 
-    songIndexValueChanged() {
-        if (this.songIndexValue === -1) {
-            return;
-        }
+    static classes = [
+        'activeSong',
+    ]
 
-        const url = this.songTargets[this.songIndexValue].dataset.url;
-        this.playerTarget.src = url;
-        this.playerTarget.play();
+    songIndexValueChanged() {
+        if (this.songIndexValue !== -1) {
+            const songTarget = this.songTargets[this.songIndexValue];
+            
+            this.playerTarget.src = songTarget.dataset.url;
+            this.playerTarget.play();
+            
+            this.songTargets.forEach(songTarget => songTarget.classList.remove(...this.activeSongClasses));
+            songTarget.classList.add(...this.activeSongClasses);
+        }
     }
 
     play(event) {
@@ -26,7 +32,9 @@ export default class extends Controller {
     }
 
     onSongEnded() {
-        const songsCount = this.songTargets.length;
-        this.songIndexValue = (this.songIndexValue + 1) % songsCount;
+        if (this.autoplayTarget.checked) {
+            const songsCount = this.songTargets.length;
+            this.songIndexValue = (this.songIndexValue + 1) % songsCount;
+        }
     }
 }
