@@ -24,6 +24,7 @@ export default class extends Controller {
             
             this.songTargets.forEach(songTarget => songTarget.classList.remove(...this.activeSongClasses));
             songTarget.classList.add(...this.activeSongClasses);
+            songTarget.scrollIntoView({ block: 'nearest' });
         }
     }
 
