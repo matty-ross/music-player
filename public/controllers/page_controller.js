@@ -23,7 +23,7 @@ export default class extends Controller {
         this.tableOutlet.reload();
     }
 
-    async confirmDelete(event) {
+    async confirmAction(event) {
         const result = await Swal.fire({
             text: event.params.text,
             icon: 'question',
