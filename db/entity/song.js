@@ -3,6 +3,7 @@ export default class Song {
     name = null;
     artist = null;
     file = null;
+    extension = null;
     playlistIds = [];
 
     constructor(dbSong = null, dbSongPlaylistIds = null) {
@@ -11,6 +12,7 @@ export default class Song {
             this.name = dbSong['name'];
             this.artist = dbSong['artist'];
             this.file = dbSong['file'];
+            this.extension = dbSong['extension'];
         }
 
         if (dbSongPlaylistIds) {

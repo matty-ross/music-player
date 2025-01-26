@@ -1,3 +1,5 @@
+import path from 'node:path';
+
 import express from 'express';
 import multer from 'multer';
 
@@ -9,8 +11,10 @@ import PlaylistRepository from '../db/repository/playlist.js';
 const router = express.Router();
 
 
+const UPLOAD_DIRECTORY = './public/upload/song';
+
 const upload = multer({
-    dest: './public/upload/song',
+    dest: UPLOAD_DIRECTORY,
 });
 
 
@@ -23,7 +27,8 @@ function handleSubmittedFormData(song, req) {
 
     const file = req.file;
     if (file) {
-        song.file = req.file.path;
+        song.file = file.filename;
+        song.extension = path.extname(file.originalname);
     }
 
     const playlistId = req.body['playlist-id'];
@@ -103,11 +108,15 @@ router.post('/delete/:id', (req, res) => {
 router.get('/download/:id', (req, res) => {
     const song = SongRepository.get(req.params.id);
 
+    if (!song.file) {
+        res.sendStatus(404);
+        return;
+    }
+
     res.sendFile(song.file, {
-        root: '.',
+        root: UPLOAD_DIRECTORY,
         headers: {
-            'Content-Type': 'audo/mp3',
-            'Content-Disposition': `attachment; filename=${req.params.id}.mp3`,
+            'Content-Disposition': `attachment; filename=${song.file}${song.extension}`,
         }
     });
 });

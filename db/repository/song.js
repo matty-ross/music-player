@@ -85,15 +85,16 @@ export default class SongRepository {
         return database
             .prepare(`
                 INSERT INTO "song"
-                    ("name", "artist", "file")
+                    ("name", "artist", "file", "extension")
                 VALUES
-                    (:name, :artist, :file)
+                    (:name, :artist, :file, :extension)
                 ;
             `)
             .run({
                 name: song.name,
                 artist: song.artist,
                 file: song.file,
+                extension: song.extension,
             })
         ;
     }
@@ -105,7 +106,8 @@ export default class SongRepository {
                 SET
                     "name" = :name,
                     "artist" = :artist,
-                    "file" = :file
+                    "file" = :file,
+                    "extension" = :extension
                 WHERE
                     "id" = :id
                 ;
@@ -115,6 +117,7 @@ export default class SongRepository {
                 name: song.name,
                 artist: song.artist,
                 file: song.file,
+                extension: song.extension,
             })
         ;
     }

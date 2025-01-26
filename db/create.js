@@ -9,7 +9,8 @@ database.exec(`
         "id" INTEGER PRIMARY KEY,
         "name" VARCHAR(255) NOT NULL,
         "artist" VARCHAR(255) NOT NULL,
-        "file" VARCHAR(255) NOT NULL
+        "file" VARCHAR(255) NULL,
+        "extension" VARCHAR(255) NULL
     );
 `);
 
