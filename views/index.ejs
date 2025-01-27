@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <title>Music player</title>
+
+        <%- include('libraries') %>
+    </head>
+    <body>
+        <div class="container">
+            <div class="d-flex flex-column align-items-center gap-4">
+                <h1 class="mt-5">Music player</h1>
+                
+                <a class="text-decoration-none w-100" href="/song" style="max-width: 50rem;">
+                    <div class="card text-center py-4">
+                        <div class="card-img-top">
+                            <div class="display-1">
+                                <i class="bi bi-music-note-beamed"></i>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h2 class="card-title text-primary">Songs</h2>
+                            <p class="card-text">Number of songs: <%= songs.length %></p>
+                        </div>
+                    </div>
+                </a>
+                <a class="text-decoration-none w-100" href="/playlist" style="max-width: 50rem;">
+                    <div class="card text-center py-4">
+                        <div class="card-img-top">
+                            <div class="display-1">
+                                <i class="bi bi-music-note-list"></i>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <h2 class="card-title text-primary">Playlists</h2>
+                            <p class="card-text">Number of playlists: <%= playlists.length %></p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </body>
+</html>
