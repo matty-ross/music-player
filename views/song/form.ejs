@@ -11,7 +11,7 @@
             <button class="btn-close" type="button" data-bs-dismiss="modal"></button>
         </div>
     
-        <div class="modal-body">
+        <div class="modal-body" style="max-height: 60vh;">
             <div class="mb-3">
                 <label class="form-label" for="name">Name</label>
                 <input
@@ -51,10 +51,9 @@
                     class="form-control form-control-sm d-inline w-auto ms-3"
                     type="text"
                     placeholder="filter..."
-                    size="30"
                     data-action="input->collection#filter"
                 >
-                <ul class="overflow-auto my-2 px-1" style="height: 10em;">
+                <ul class="my-2 px-1">
                     <% for (const playlist of playlists) { %>
                         <li class="form-check" data-collection-target="item">
                             <input

@@ -39,7 +39,6 @@
                             class="form-control w-auto"
                             type="text"
                             placeholder="filter..."
-                            size="30"
                             data-action="change->table#filter"
                         >
                     </div>
@@ -51,7 +50,7 @@
                     data-controller="modal"
                 >
                     <div class="modal" data-bs-backdrop="static" data-modal-target="modal">
-                        <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                             <div class="modal-content">
                                 <turbo-frame id="modal-content" data-modal-target="modalContent"></turbo-frame>
                             </div>
@@ -64,7 +63,7 @@
                     data-controller="toast"
                 >
                     <div class="toast-container position-absolute bottom-0 py-3">
-                        <div class="toast text-bg-success" data-toast-target="toast">
+                        <div class="toast text-bg-success w-auto" data-toast-target="toast">
                             <div class="toast-body" data-toast-target="toastBody"></div>
                         </div>
                     </div>
