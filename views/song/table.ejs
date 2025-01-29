@@ -1,53 +1,55 @@
 <turbo-frame id="table">
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Name</th>
-                <th>Artist</th>
-            </tr>
-        </thead>
-        <tbody class="table-group-divider align-middle">
-            <% for (const song of songs) { %>
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
                 <tr>
-                    <td>
-                        <button
-                            type="button"
-                            class="btn btn-outline-secondary"
-                            data-action="click->page#openModal"
-                            data-page-url-param="<%= `/song/form/${song.id}` %>"
-                        >
-                            <i class="bi bi-pencil"></i>
-                        </button>
-                        <button
-                            type="button"
-                            class="btn btn-outline-danger"
-                            data-action="click->page#confirmAction"
-                            data-page-text-param="Really delete this song?"
-                            data-page-url-param="<%= `/song/delete/${song.id}` %>"
-                        >
-                            <i class="bi bi-trash"></i>
-                        </button>
-                        <button
-                            type="button"
-                            class="btn btn-outline-primary"
-                            data-action="click->page#openModal"
-                            data-page-url-param="<%= `/song/player/${song.id}` %>"
-                        >
-                            <i class="bi bi-play"></i>
-                        </button>
-                        <a
-                            class="btn btn-outline-primary"
-                            href="<%= `/song/download/${song.id}` %>"
-                            data-turbo="false"
-                        >
-                            <i class="bi bi-download"></i>
-                        </a>
-                    </td>
-                    <td><%= song.name %></td>
-                    <td><%= song.artist %></td>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Artist</th>
                 </tr>
-            <% } %>
-        </tbody>
-    </table>
+            </thead>
+            <tbody class="table-group-divider align-middle">
+                <% for (const song of songs) { %>
+                    <tr>
+                        <td>
+                            <button
+                                type="button"
+                                class="btn btn-outline-secondary"
+                                data-action="click->page#openModal"
+                                data-page-url-param="<%= `/song/form/${song.id}` %>"
+                            >
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-outline-danger"
+                                data-action="click->page#confirmAction"
+                                data-page-text-param="Really delete this song?"
+                                data-page-url-param="<%= `/song/delete/${song.id}` %>"
+                            >
+                                <i class="bi bi-trash"></i>
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-outline-primary"
+                                data-action="click->page#openModal"
+                                data-page-url-param="<%= `/song/player/${song.id}` %>"
+                            >
+                                <i class="bi bi-play"></i>
+                            </button>
+                            <a
+                                class="btn btn-outline-primary"
+                                href="<%= `/song/download/${song.id}` %>"
+                                data-turbo="false"
+                            >
+                                <i class="bi bi-download"></i>
+                            </a>
+                        </td>
+                        <td><%= song.name %></td>
+                        <td><%= song.artist %></td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
 </turbo-frame>

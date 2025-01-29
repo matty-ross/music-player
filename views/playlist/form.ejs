@@ -26,12 +26,13 @@
             <div data-controller="collection">
                 <span>Songs</span>
                 <input
-                    class="form-control form-control-sm d-inline w-50 ms-3"
+                    class="form-control form-control-sm d-inline ms-3"
                     type="text"
                     placeholder="filter..."
                     data-action="input->collection#filter"
+                    style="max-width: 12rem;"
                 >
-                <ul class="overflow-auto my-2 px-1" style="max-height: 25vh;">
+                <ul class="overflow-auto my-2 px-1" style="height: 25vh;">
                     <% for (const song of songs) { %>
                         <li class="form-check" data-collection-target="item">
                             <input
