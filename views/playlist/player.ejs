@@ -34,10 +34,9 @@
 
             <div data-controller="collection">
                 <input
-                    class="form-control form-control-sm d-inline w-auto me-3"
+                    class="form-control form-control-sm d-inline w-50 me-3"
                     type="text"
                     placeholder="filter..."
-                    size="30"
                     data-action="input->collection#filter"
                 >
                 <div class="form-check form-switch d-inline-block">
@@ -51,7 +50,7 @@
                     <label class="form-check-label" for="playlist-player-autoplay">Autoplay</label>
                 </div>
                 <hr>
-                <div class="overflow-auto" style="height: 40em;">
+                <div class="overflow-auto" style="max-height: 25vh;">
                     <table class="table align-middle">
                         <tbody>
                             <% for (const [index, song] of songs.entries()) { %>
