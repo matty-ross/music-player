@@ -44,7 +44,7 @@ function handleSubmittedFormData(song, req) {
 
 router.get('/', (req, res) => {
     res.render('song/index');
-})
+});
 
 router.get('/table', (req, res) => {
     const searchQuery = req.query['q'] ?? '';
@@ -52,7 +52,7 @@ router.get('/table', (req, res) => {
     res.render('song/table', {
         songs: SongRepository.list(searchQuery),
     });
-})
+});
 
 router.get('/form{/:id}', (req, res) => {
     const id = req.params.id;
@@ -71,7 +71,7 @@ router.get('/form{/:id}', (req, res) => {
             playlists: PlaylistRepository.list(),
         });
     }
-})
+});
 
 router.post('/create', upload.single('file'), (req, res) => {
     const song = new Song();
@@ -117,14 +117,14 @@ router.get('/download/:id', (req, res) => {
         root: UPLOAD_DIRECTORY,
         headers: {
             'Content-Disposition': `attachment; filename=${song.file}${song.extension}`,
-        }
+        },
     });
 });
 
 router.get('/player/:id', (req, res) => {
     const id = req.params.id;
 
-    res.render('song/player.ejs', {
+    res.render('song/player', {
         url: `/song/download/${id}`,
         song: SongRepository.get(id),
     });

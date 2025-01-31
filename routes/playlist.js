@@ -25,7 +25,7 @@ function handleSubmittedFormData(playlist, req) {
 
 router.get('/', (req, res) => {
     res.render('playlist/index');
-})
+});
 
 router.get('/table', (req, res) => {
     const searchQuery = req.query['q'] ?? '';
@@ -33,7 +33,7 @@ router.get('/table', (req, res) => {
     res.render('playlist/table', {
         playlists: PlaylistRepository.list(searchQuery),
     });
-})
+});
 
 router.get('/form{/:id}', (req, res) => {
     const id = req.params.id;
@@ -52,7 +52,7 @@ router.get('/form{/:id}', (req, res) => {
             songs: SongRepository.list(),
         });
     }
-})
+});
 
 router.post('/create', (req, res) => {
     const playlist = new Playlist();
@@ -90,7 +90,7 @@ router.get('/player/:id', (req, res) => {
     const playlist = PlaylistRepository.get(req.params.id);
     const songs = playlist.songIds.map(songId => SongRepository.get(songId));
     
-    res.render('playlist/player.ejs', {
+    res.render('playlist/player', {
         playlist: playlist,
         songs: songs,
     });

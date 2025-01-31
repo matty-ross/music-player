@@ -19,12 +19,12 @@ export default class extends Controller {
         if (this.songIndexValue !== -1) {
             const songTarget = this.songTargets[this.songIndexValue];
             
-            this.playerTarget.src = songTarget.dataset.url;
-            this.playerTarget.play();
-            
             this.songTargets.forEach(songTarget => songTarget.classList.remove(...this.activeSongClasses));
             songTarget.classList.add(...this.activeSongClasses);
             songTarget.scrollIntoView({ block: 'nearest' });
+
+            this.playerTarget.src = songTarget.dataset.url;
+            this.playerTarget.play();
         }
     }
 
