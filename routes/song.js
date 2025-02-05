@@ -6,6 +6,7 @@ import multer from 'multer';
 import Song from '../db/entity/song.js';
 import SongRepository from '../db/repository/song.js';
 import PlaylistRepository from '../db/repository/playlist.js';
+import { downloadMusicVideo } from '../service/youtube_service.js';
 
 
 const router = express.Router();
@@ -18,7 +19,7 @@ const upload = multer({
 });
 
 
-function handleSubmittedFormData(song, req) {
+async function handleSubmittedFormData(song, req) {
     const name = req.body['name'];
     song.name = name;
 
@@ -26,9 +27,16 @@ function handleSubmittedFormData(song, req) {
     song.artist = artist;
 
     const file = req.file;
+    const youtubeUrl = req.body['youtube-url'];
     if (file) {
         song.file = file.filename;
         song.extension = path.extname(file.originalname);
+    } else if (youtubeUrl) {
+        const data = await downloadMusicVideo(youtubeUrl, UPLOAD_DIRECTORY);
+        if (data) {
+            song.file = data.filename;
+            song.extension = data.extension;
+        }
     }
 
     const playlistId = req.body['playlist-id'];
@@ -73,9 +81,9 @@ router.get('/form{/:id}', (req, res) => {
     }
 });
 
-router.post('/create', upload.single('file'), (req, res) => {
+router.post('/create', upload.single('file'), async (req, res) => {
     const song = new Song();
-    handleSubmittedFormData(song, req);
+    await handleSubmittedFormData(song, req);
     
     SongRepository.create(song);
     
@@ -84,9 +92,9 @@ router.post('/create', upload.single('file'), (req, res) => {
     });
 });
 
-router.post('/update/:id', upload.single('file'), (req, res) => {
+router.post('/update/:id', upload.single('file'), async (req, res) => {
     const song = SongRepository.get(req.params.id);
-    handleSubmittedFormData(song, req);
+    await handleSubmittedFormData(song, req);
     
     SongRepository.update(song);
     
